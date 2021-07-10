@@ -33,6 +33,10 @@ namespace DiscordBotLib.Services
 {
     public class Settings : ISettings
     {
+        public string BotName { get; set; }
+
+        public string BotWebsite { get; set; }
+
         public string InviteLink { get; private set; }
 
         public Type DbConnectionType { get; private set; }
@@ -144,7 +148,8 @@ namespace DiscordBotLib.Services
             {
                 OwnerUserId = ownerId;
             }
-
+            BotName = _configuration.GetSection("BotName").Value ?? "DiscordBotTemplate";
+            BotWebsite = _configuration.GetSection("BotWebsite").Value ?? "https://github.com/JoyfulReaper/DiscordBotTemplate";
             WelcomeMessage = _configuration.GetSection("WelcomeMessage").Value ?? "just joined!";
             PartingMessage = _configuration.GetSection("PartingMessage").Value ?? "just bailed!";
             DefaultPrefix = _configuration.GetSection("DefaultPrefix").Value ?? "!";
