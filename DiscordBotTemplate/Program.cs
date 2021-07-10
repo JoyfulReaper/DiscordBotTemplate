@@ -51,21 +51,24 @@ namespace DiscordBot
 
         static async Task Main(string[] args)
         {
-            ConsoleHelper.ColorWriteLine(ConsoleColor.Red, "DiscordBotTemplate");
-            ConsoleHelper.ColorWriteLine(ConsoleColor.Blue, @"MIT License
-
-Copyright(c) 2021 Kyle Givler (JoyfulReaper)
-https://github.com/JoyfulReaper" + "\n\n");
-
             // Initial Logging for before the Dependency Injection is setup
             Bootstrap.SetupLogging();
 
             // Set up Dependency Injection
             var serviceProvider = Bootstrap.Initialize(args);
             var chatService = serviceProvider.GetRequiredService<IChatService>();
-            var config = serviceProvider.GetRequiredService<IConfiguration>();
+            var settings = serviceProvider.GetRequiredService<ISettings>();
 
-            if (!bool.TryParse(config.GetSection("StartLavaLink").Value, out _startLavaLink))
+            ConsoleHelper.ColorWriteLine(ConsoleColor.Red, $"{settings.BotName}");
+            ConsoleHelper.ColorWriteLine(ConsoleColor.Blue, @$"{settings.BotWebsite}
+
+This bot is based on DiscordBotTemplate
+https://github.com/JoyfulReaper/DiscordBotTemplate
+
+MIT License
+Copyright 2021 JoyfulReaper (Kyle Givler)" + "\n\n");
+
+            if (!settings.EnableLavaLink)
             {
                 _logger.Warning("Unable to parse StartLavaLink, using {value}", _startLavaLink);
             }

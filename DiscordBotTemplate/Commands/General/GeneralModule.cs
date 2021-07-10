@@ -75,7 +75,7 @@ namespace DiscordBot.Commands
             _logger.LogInformation("{username}#{discriminator} executed uptime: on {server}/{channel}",
                 Context.User.Username, Context.User.Discriminator, Context.Guild?.Name ?? "DM", Context.Channel.Name);
 
-            await Context.Channel.SendEmbedAsync("Invite Link", $"Follow the link to invite DiscordBot!\n{_settings.InviteLink}",
+            await Context.Channel.SendEmbedAsync("Invite Link", $"Follow the link to invite {_settings.BotName}!\n{_settings.InviteLink}",
                 ColorHelper.GetColor(await _servers.GetServer(Context.Guild)), ImageLookupUtility.GetImageUrl("INVITE_IMAGES"));
 
             //await ReplyAsync(_settings.InviteLink);
@@ -169,7 +169,9 @@ namespace DiscordBot.Commands
 
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl(_client.CurrentUser.GetAvatarUrl() ?? _client.CurrentUser.GetDefaultAvatarUrl())
-                .WithDescription("DiscordBot\nMIT License Copyright(c) 2021 JoyfulReaper\nhttps://github.com/JoyfulReaper/DiscordBotTemplate\n\n" +
+                .WithDescription($"{_settings.BotName}\n{_settings.BotWebsite}\n\n" +
+                $"Based on DiscordBotTemplate. Copyright 2021 JoyfulReaper\n" +
+                $"https://github.com/JoyfulReaper/DiscordBotTemplate\n\n" +
                 $"See `{prefix}invite` for the link to invite DiscordBot to your server!")
                 .WithColor(ColorHelper.GetColor(server))
                 .WithCurrentTimestamp();
@@ -190,7 +192,8 @@ namespace DiscordBot.Commands
             var server = await _servers.GetServer(Context.Guild);
             if(Context.Guild == null)
             {
-                await Context.Channel.SendEmbedAsync("Discord Bot", "DiscordBot was written by JoyfulReaper\nhttps://github.com/JoyfulReaper/DiscordBotTemplate", 
+                await Context.Channel.SendEmbedAsync($"{_settings.BotName} {_settings.BotWebsite}", "DiscordBotTemplate was orginally written by JoyfulReaper\n" +
+                    "https://github.com/JoyfulReaper/DiscordBotTemplate", 
                     ColorHelper.RandomColor(), _client.CurrentUser.GetAvatarUrl() ?? _client.CurrentUser.GetDefaultAvatarUrl());
                 return;
             }
